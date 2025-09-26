@@ -986,20 +986,6 @@ Linux.DropdownBar = true
 Linux.LineEnabled = true
 Linux.ShowSliderMax = false
 
-function Linux.CreateDropdownGradient(accentColor)
-    return ColorSequence.new{
-        ColorSequenceKeypoint.new(0.00, Color3.fromRGB(43, 43, 43)),
-        ColorSequenceKeypoint.new(0.20, Color3.fromRGB(43, 43, 43)),
-        ColorSequenceKeypoint.new(0.50, Color3.fromRGB(
-            math.floor(accentColor.R * 255),
-            math.floor(accentColor.G * 255),
-            math.floor(accentColor.B * 255)
-        )),
-        ColorSequenceKeypoint.new(0.80, Color3.fromRGB(43, 43, 43)),
-        ColorSequenceKeypoint.new(1.00, Color3.fromRGB(43, 43, 43))
-    }
-end
-
 function Linux.SetIgnoreIndexes(names)
     for _, name in ipairs(names) do
         Linux.IgnoredElements[name] = true
@@ -2626,13 +2612,13 @@ function Linux.Create(config)
         if config.Default == true then
             DefaultTab = tabIndex
             task.spawn(function()
-                task.wait(0.1)
+                task.wait(0.001)
                 SelectTab()
             end)
         elseif CurrentTab == nil and tabOrder == 1 then
             DefaultTab = tabIndex
             task.spawn(function()
-                task.wait(0.1)
+                task.wait(0.001)
                 SelectTab()
             end)
         end
@@ -3377,14 +3363,6 @@ function Linux.Create(config)
                 Parent = DropFrame,
                 CornerRadius = UDim.new(0, 4)
             })
-            
-            local DropFrameGradient = Linux.Instance("UIGradient", {
-                Parent = DropFrame,
-                Color = Linux.CreateDropdownGradient(Linux.Accents[Linux.CurrentAccent]),
-                Rotation = 0
-            })
-            
-            Linux.RegisterAccentElement(DropFrameGradient)
 
             local OptionsHolder = Linux.Instance("ScrollingFrame", {
                 Parent = DropFrame,
@@ -5005,7 +4983,6 @@ function Linux.Create(config)
                 
                 local function updateCursorPosition()
                     local x = currentS
-                
                     local y = 1 - currentV
                     ColorCursor.Position = UDim2.new(x, -3, y, -3)
                 end
